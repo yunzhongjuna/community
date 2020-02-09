@@ -14,4 +14,7 @@ public interface UserMapper {
     //设计字符串参数时，需加@Param("token")
     @Select("select * from user where token = #{token}")
     User findByToken(@Param("token") String token);
+
+    @Select("select * from user where id = #{id}")
+    User findById(@Param("id")Integer id);
 }

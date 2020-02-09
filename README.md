@@ -3,6 +3,7 @@
 ##资料文档
 
 [bootstrap](https://www.bootcss.com/)
+[thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#variables)
 
 ##工具
 
