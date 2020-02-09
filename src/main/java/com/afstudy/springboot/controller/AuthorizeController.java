@@ -2,6 +2,8 @@ package com.afstudy.springboot.controller;
 
 import com.afstudy.springboot.dto.AccessTokenDTO;
 import com.afstudy.springboot.dto.GithubUser;
+import com.afstudy.springboot.mapper.UserMapper;
+import com.afstudy.springboot.model.User;
 import com.afstudy.springboot.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -23,7 +26,9 @@ public class AuthorizeController {
     private String clientSecret;
     @Value("${github.redirect.uri}")
     private String redirectUri;
-
+    @Autowired
+    private UserMapper userMapper;
+    
     @RequestMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
@@ -36,10 +41,18 @@ public class AuthorizeController {
         accessTokonDTO.setState(state);
 
         String accessToken = githubProvider.getAccessToken(accessTokonDTO);
-        GithubUser user = githubProvider.githubUser(accessToken);
-        if(user !=null){
+        GithubUser githubUser = githubProvider.githubUser(accessToken);
+        if(githubUser !=null){
             //登录成功
-            request.getSession().setAttribute("user",user);
+            User user = new User();
+
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccount_id(String.valueOf(githubUser.getId()));
+            user.setGmt_create(System.currentTimeMillis());
+            user.setGmt_modified(user.getGmt_create());
+            userMapper.insert(user);
+            request.getSession().setAttribute("user",githubUser);
             return "redirect:/";
         }else {
             //登录失败
