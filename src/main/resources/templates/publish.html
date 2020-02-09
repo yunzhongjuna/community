@@ -3,9 +3,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>交流社区</title>
+    <title>发起问题</title>
     <link rel="stylesheet" href="/css/bootstrap.css" />
     <link rel="stylesheet" href="/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="/css/shequ.css"/>
     <script type="application/javascript"  src="/js/jquery-3.4.1.min.js"></script>
     <script  type="application/javascript" src="/js/bootstrap.js"></script>
 </head>
@@ -34,7 +35,7 @@
                 <li class="dropdown" th:if="${session.user !=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false" th:text="${session.user.getName()}"> <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
                         <li><a href="#">退出登录</a></li>
@@ -46,8 +47,41 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
-</nav>
 
+
+</nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2>  <span class="glyphicon glyphicon-plus" aria-hidden="true"> 发布</span></h2>
+            <br/>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题描述(简单扼要):</label>
+                    <input type="text" class="form-control" id="title" th:value="${title}" name="title" placeholder="问题标题_">
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充(必填，参照右侧):</label>
+                    <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签:</label>
+                    <input type="text" class="form-control" id="tag" th:value="${tag}" name="tag" placeholder="输入标签 以，分割">
+                </div>
+
+                <span class="alert alert-danger" th:if="${error!=null}" th:text="${error}"></span>
+
+                <button type="submit" class="btn btn-success btn-publish">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>问题发起指南</h3>
+            • 问题标题: 请用精简的语言描述您发布的问题，不超过25字 <br>
+            • 问题补充: 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料<br>
+            • 选择标签: 选择一个或者多个合适的标签，用逗号隔开，每个标签不超过10个字<br>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
