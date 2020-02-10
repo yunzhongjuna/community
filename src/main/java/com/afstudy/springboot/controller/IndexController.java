@@ -1,19 +1,17 @@
 package com.afstudy.springboot.controller;
 
-import com.afstudy.springboot.dto.QuestionDTO;
-import com.afstudy.springboot.mapper.QuestionMapper;
+import com.afstudy.springboot.dto.PaginationDTO;
 import com.afstudy.springboot.mapper.UserMapper;
-import com.afstudy.springboot.model.Question;
 import com.afstudy.springboot.model.User;
 import com.afstudy.springboot.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @Controller
 public class IndexController {
@@ -24,7 +22,11 @@ public class IndexController {
     private QuestionService questionService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request, Model model){
+    public String index(
+            HttpServletRequest request,
+            Model model,
+            @RequestParam(value = "page",defaultValue="1") Integer page,
+            @RequestParam(value = "size",defaultValue="5") Integer size){
         Cookie[] cookies = request.getCookies();
         if(cookies !=null){
             for (Cookie cookie : cookies) {
@@ -39,8 +41,8 @@ public class IndexController {
             }
         }
 
-        List<QuestionDTO>questionList=questionService.list();
-        model.addAttribute("questions",questionList);
+        PaginationDTO pagination=questionService.list(page,size);
+        model.addAttribute("pagination",pagination);
         return "index";
     }
 
