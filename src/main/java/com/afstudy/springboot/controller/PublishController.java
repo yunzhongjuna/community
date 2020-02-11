@@ -1,22 +1,37 @@
 package com.afstudy.springboot.controller;
 
+import com.afstudy.springboot.dto.QuestionDTO;
 import com.afstudy.springboot.mapper.QuestionMapper;
 import com.afstudy.springboot.model.Question;
 import com.afstudy.springboot.model.User;
+import com.afstudy.springboot.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class PublishController {
-
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService questionService;
+    /**
+     * 编辑页面
+     * @param id
+     * @return
+     */
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id")Integer id,
+                       Model model){
+        QuestionDTO question = questionService.getById(id);
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id",question.getId());
+        return "publish";
+    }
+
     @RequestMapping("/publish")
     public String publish(){
         return "publish";
@@ -25,6 +40,7 @@ public class PublishController {
     public String doPublish(@RequestParam("title")String title,
                             @RequestParam("description")String description,
                             @RequestParam("tag")String tag,
+                            @RequestParam("id")Integer id,
                             HttpServletRequest request,
                             Model model){
         model.addAttribute("title",title);
@@ -56,7 +72,7 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setGmt_create(System.currentTimeMillis());
         question.setGmt_modified(question.getGmt_create());
-        questionMapper.create(question);
+        questionService.createOrUpdate(question);
         return "redirect:/";
     }
 

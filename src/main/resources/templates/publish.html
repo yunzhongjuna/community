@@ -18,9 +18,10 @@
             <h2>  <span class="glyphicon glyphicon-plus" aria-hidden="true"> 发布</span></h2>
             <hr/>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题描述(简单扼要):</label>
-                    <input type="text" class="form-control" id="title" th:value="${title}" name="title" placeholder="问题标题_">
+                    <input type="text" class="form-control" id="title" th:value="${title}" name="title" placeholder="问题标题……">
                 </div>
                 <div class="form-group">
                     <label for="description">问题补充(必填，参照右侧):</label>
