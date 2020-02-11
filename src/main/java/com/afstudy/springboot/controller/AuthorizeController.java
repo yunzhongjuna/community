@@ -1,7 +1,7 @@
 package com.afstudy.springboot.controller;
 
 import com.afstudy.springboot.dto.AccessTokenDTO;
-import com.afstudy.springboot.dto.GithubUser;
+import com.afstudy.springboot.dto.GithubUserDTO;
 import com.afstudy.springboot.mapper.UserMapper;
 import com.afstudy.springboot.model.User;
 import com.afstudy.springboot.provider.GithubProvider;
@@ -44,22 +44,22 @@ public class AuthorizeController {
         accessTokonDTO.setState(state);
 
         String accessToken = githubProvider.getAccessToken(accessTokonDTO);
-        GithubUser githubUser = githubProvider.githubUser(accessToken);
-        if(githubUser !=null){
+        GithubUserDTO githubUserDTO = githubProvider.githubUser(accessToken);
+        if(githubUserDTO !=null){
             //登录成功
             User user = new User();
             String token=UUID.randomUUID().toString();
             user.setToken(token);
-            user.setName(githubUser.getName());
-            user.setAccount_id(String.valueOf(githubUser.getId()));
+            user.setName(githubUserDTO.getName());
+            user.setAccount_id(String.valueOf(githubUserDTO.getId()));
             user.setGmt_create(System.currentTimeMillis());
             user.setGmt_modified(user.getGmt_create());
-            user.setAvatar_url(githubUser.getAvatar_url());
+            user.setAvatar_url(githubUserDTO.getAvatar_url());
             userMapper.insert(user);
             //写入session cookie
             response.addCookie(new Cookie("token",token));
 
-            request.getSession().setAttribute("user",githubUser);
+            request.getSession().setAttribute("user", githubUserDTO);
             return "redirect:/";
         }else {
             //登录失败

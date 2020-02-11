@@ -3,7 +3,7 @@ package com.afstudy.springboot.dto;
 import lombok.Data;
 
 @Data
-public class GithubUser {
+public class GithubUserDTO {
 
     private String name;
     private Long id;
