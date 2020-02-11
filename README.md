@@ -4,6 +4,8 @@
 
 [bootstrap](https://www.bootcss.com/)
 [thymeleaf](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#variables)
+[Github deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys)
+[Github OAuth](https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/)
 
 ##工具
 
