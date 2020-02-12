@@ -20,8 +20,13 @@
 ##工具
 
 [Git](https://git-scm.com/download) 
-##运行generator 并每次替换之前的内容
-mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+
+##Mybatis Generator 
+```sh
+   mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+```
+
+
 ##脚本
 ```sql
 create table user
