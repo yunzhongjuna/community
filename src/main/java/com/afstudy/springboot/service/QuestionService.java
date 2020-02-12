@@ -4,6 +4,7 @@ import com.afstudy.springboot.dto.PaginationDTO;
 import com.afstudy.springboot.dto.QuestionDTO;
 import com.afstudy.springboot.exception.CustomizeErrorCode;
 import com.afstudy.springboot.exception.CustomizeException;
+import com.afstudy.springboot.mapper.QuestionExtMapper;
 import com.afstudy.springboot.mapper.QuestionMapper;
 import com.afstudy.springboot.mapper.UserMapper;
 import com.afstudy.springboot.model.Question;
@@ -23,6 +24,8 @@ public class QuestionService {
     private UserMapper userMapper;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
@@ -130,5 +133,16 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    /**
+     * 增加评论数
+     * @param id
+     */
+    public void incView(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setView_count(1);
+        questionExtMapper.incView(question);
     }
 }
