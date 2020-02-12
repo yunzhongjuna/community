@@ -16,10 +16,12 @@
 [Markdown 插件](http://editor.md.ipandao.com/)   
 [UFfile SDK](https://github.com/ucloud/ufile-sdk-java)  
 [Count(*) VS Count(1)](https://mp.weixin.qq.com/s/Rwpke4BHu7Fz7KOpE2d3Lw)  
+[Mybatis Generator](http://mybatis.org/generator/configreference/xmlconfig.html)
 ##工具
 
 [Git](https://git-scm.com/download) 
-
+##运行generator 并每次替换之前的内容
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ##脚本
 ```sql
 create table user
